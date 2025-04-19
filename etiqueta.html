@@ -41,13 +41,19 @@
     }
 
     @media print {
-      body {
-        margin: 0;
-      }
-
       .no-print {
         display: none;
       }
+    }
+
+    .no-print {
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    .no-print button {
+      padding: 8px 16px;
+      font-size: 14px;
     }
   </style>
 </head>
@@ -96,11 +102,15 @@
       displayValue: false
     });
 
-    window.onload = function () {
-      setTimeout(() => {
-        window.print();
-      }, 500);
-    };
+    const isMobile = /Mobi|Android/i.test(navigator.userAgent);
+
+    if (!isMobile) {
+      window.onload = function () {
+        setTimeout(() => {
+          window.print();
+        }, 500);
+      };
+    }
   </script>
 </body>
 </html>
