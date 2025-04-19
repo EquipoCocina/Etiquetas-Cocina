@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Etiqueta de Producto</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .etiqueta {
+      width: 400px;
+      border: 1px dashed #000;
+      padding: 20px;
+      font-size: 20px;
+    }
+
+    .campo {
+      margin-bottom: 10px;
+    }
+
+    .codigo {
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    @media print {
+      body {
+        margin: 0;
+      }
+
+      .no-print {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="etiqueta">
+    <div class="campo"><strong>Producto:</strong> <span id="producto"></span></div>
+    <div class="campo"><strong>Peso:</strong> <span id="peso"></span></div>
+    <div class="campo"><strong>Fecha:</strong> <span id="fecha"></span></div>
+    <div class="campo codigo"><strong>Código:</strong> <span id="codigo"></span></div>
+  </div>
+
+  <div class="no-print">
+    <button onclick="window.print()">Imprimir</button>
+  </div>
+
+  <script>
+    function getParam(param) {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get(param) || '';
+    }
+
+    document.getElementById("producto").textContent = getParam("producto");
+    document.getElementById("peso").textContent = getParam("peso");
+    document.getElementById("fecha").textContent = getParam("fecha");
+    document.getElementById("codigo").textContent = getParam("codigo");
+
+    // Imprimir automáticamente
+    window.onload = function () {
+      setTimeout(() => {
+        window.print();
+      }, 500);
+    };
+  </script>
+</body>
+</html>
