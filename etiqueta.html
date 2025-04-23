@@ -1,103 +1,55 @@
 <!DOCTYPE html>
-<html lang="es">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <title>Etiqueta</title>
+  <meta charset="UTF-8">
+  <title>Etiqueta Inventario</title>
   <style>
-    @page {
-      size: 62mm 60mm;
-      margin: 0;
-    }
     body {
       width: 62mm;
       height: 60mm;
       margin: 0;
-      padding: 0;
+      padding: 4mm;
       font-family: Arial, sans-serif;
+      font-size: 12px;
+      box-sizing: border-box;
     }
     .etiqueta {
       width: 100%;
       height: 100%;
-      box-sizing: border-box;
-      padding: 6mm;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      font-size: 14px;
+      border: 1px solid black;
+      padding: 2mm;
     }
-    .campo {
-      margin: 1mm 0;
+    .linea {
+      margin-bottom: 3mm;
     }
-    .codigo {
+    .titulo {
       font-weight: bold;
-      font-size: 16px;
-    }
-    #barcode {
-      width: 100%;
-      height: 35px;
-    }
-    @media print {
-      .no-print {
-        display: none;
-      }
-    }
-    .no-print {
-      text-align: center;
-      margin-top: 10px;
-    }
-    .no-print button {
       font-size: 14px;
-      padding: 8px 16px;
+    }
+    .codigo-barra {
+      width: 100%;
+      text-align: center;
+      margin-top: auto;
+    }
+    img {
+      width: 100%;
+      height: auto;
     }
   </style>
 </head>
 <body>
   <div class="etiqueta">
-    <div>
-      <div class="campo"><strong>Producto:</strong> <span id="producto"></span></div>
-      <div class="campo"><strong>Cantidad:</strong> <span id="cantidad"></span></div>
-      <div class="campo"><strong>Entrega:</strong> <span id="fecha_entrega"></span></div>
-      <div class="campo"><strong>Caduca:</strong> <span id="fecha_caducidad"></span></div>
-    </div>
-    <div>
-      <div class="campo codigo"><span id="codigo"></span></div>
-      <svg id="barcode"></svg>
+    <div class="linea titulo" id="producto">Producto: {{Producto}}</div>
+    <div class="linea">Peso: {{Peso}}</div>
+    <div class="linea">Cantidad: {{Cantidad}} {{Unidad}}</div>
+    <div class="linea">Recepción: {{FechaRecepcion}}</div>
+    <div class="linea">Caducidad: {{FechaCaducidad}}</div>
+    <div class="codigo-barra">
+      <img src="https://barcode.tec-it.com/barcode.ashx?data={{Codigo}}&code=Code128&translate-esc=false" alt="Código de barras">
     </div>
   </div>
-  <div class="no-print">
-    <button onclick="window.print()">Imprimir</button>
-  </div>
-  <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
-  <script>
-    function getParam(param) {
-      const urlParams = new URLSearchParams(window.location.search);
-      return urlParams.get(param) || '';
-    }
-
-    const producto = getParam("producto");
-    const cantidad = getParam("cantidad");
-    const fechaEntrega = getParam("fecha_entrega");
-    const fechaCaducidad = getParam("fecha_caducidad");
-    const codigo = getParam("codigo");
-
-    document.getElementById("producto").textContent = producto;
-    document.getElementById("cantidad").textContent = cantidad;
-    document.getElementById("fecha_entrega").textContent = fechaEntrega;
-    document.getElementById("fecha_caducidad").textContent = fechaCaducidad;
-    document.getElementById("codigo").textContent = codigo;
-
-    JsBarcode("#barcode", codigo, {
-      format: "CODE128",
-      lineColor: "#000",
-      width: 2,
-      height: 35,
-      displayValue: false
-    });
-
-    const isMobile = /Mobi|Android/i.test(navigator.userAgent);
-    if (!isMobile) {
-      window.onload = () => setTimeout(() => window.print(), 500);
-    }
-  </script>
 </body>
 </html>
