@@ -2,86 +2,63 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <title>Etiqueta de Producto</title>
+  <title>Etiqueta</title>
   <style>
     @page {
       size: 62mm 100mm;
       margin: 0;
     }
 
-    html, body {
-      width: 62mm;
-      height: 100mm;
+    body {
       margin: 0;
       padding: 0;
       font-family: Arial, sans-serif;
     }
 
     .etiqueta {
-      width: 100%;
-      height: 100%;
+      width: 62mm;
+      height: 100mm;
+      padding: 5mm;
       box-sizing: border-box;
-      padding: 10px;
-      font-size: 16px;
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
-      page-break-inside: avoid;
-      page-break-before: avoid;
-      page-break-after: avoid;
+      justify-content: flex-start;
     }
 
     .campo {
-      margin: 4px 0;
+      margin-bottom: 2mm;
+      font-size: 18px;
     }
 
-    .codigo {
-      font-size: 18px;
+    .campo span {
       font-weight: bold;
+    }
+
+    #codigo {
+      font-size: 18px;
+      margin: 5mm 0 2mm 0;
     }
 
     #barcode {
       width: 100%;
-      height: 60px;
+      height: 40mm;
     }
 
     @media print {
       .no-print {
         display: none;
       }
-
-      body {
-        -webkit-print-color-adjust: exact;
-      }
-    }
-
-    .no-print {
-      text-align: center;
-      margin-top: 10px;
-    }
-
-    .no-print button {
-      padding: 8px 16px;
-      font-size: 14px;
     }
   </style>
 </head>
 <body>
   <div class="etiqueta">
-    <div>
-      <div class="campo"><strong>Producto:</strong> <span id="producto"></span></div>
-      <div class="campo"><strong>Cantidad:</strong> <span id="cantidad"></span></div>
-      <div class="campo"><strong>Entrega:</strong> <span id="fecha_entrega"></span></div>
-      <div class="campo"><strong>Caduca:</strong> <span id="fecha_caducidad"></span></div>
-    </div>
-    <div>
-      <div class="campo codigo"><span id="codigo"></span></div>
-      <svg id="barcode"></svg>
-    </div>
-  </div>
-
-  <div class="no-print">
-    <button onclick="window.print()">Imprimir</button>
+    <div class="campo"><span>Producto:</span> <span id="producto"></span></div>
+    <div class="campo"><span>Cantidad:</span> <span id="cantidad"></span></div>
+    <div class="campo"><span>Entrega:</span> <span id="fecha_entrega"></span></div>
+    <div class="campo"><span>Caduca:</span> <span id="fecha_caducidad"></span></div>
+    <div id="codigo"></div>
+    <svg id="barcode"></svg>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
@@ -107,16 +84,14 @@
       format: "CODE128",
       lineColor: "#000",
       width: 2,
-      height: 60,
+      height: 50,
       displayValue: false
     });
 
     const isMobile = /Mobi|Android/i.test(navigator.userAgent);
     if (!isMobile) {
       window.onload = function () {
-        setTimeout(() => {
-          window.print();
-        }, 500);
+        setTimeout(() => window.print(), 500);
       };
     }
   </script>
